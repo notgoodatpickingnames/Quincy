@@ -13,10 +13,14 @@ export async function execute(interaction: CommandInteraction, client: Client) {
             channelId: interaction.channelId,
             guildId: interaction.guildId!,
             adapterCreator: interaction.guild!.voiceAdapterCreator,
+            selfDeaf: false,
+            selfMute: false
         });
 
         const player = createAudioPlayer();
         const resource = createAudioResource('../9_Before_The_Storm.mp3');
+
+        console.log('RESOURCE', resource);
 
         player.play(resource);
 
