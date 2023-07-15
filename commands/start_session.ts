@@ -7,32 +7,27 @@ export const data = new SlashCommandBuilder()
 
 export async function execute(interaction: CommandInteraction, client: Client) {
     if (interaction.isChatInputCommand()) {
-        if (interaction.commandName === 'join') {
-            
-            interaction.reply({
-                content: 'ok',
-            });
+        const voiceChannel = interaction.options.getChannel('channel');
+        
+        const voiceConnection = joinVoiceChannel({
+            channelId: interaction.channelId,
+            guildId: interaction.guildId!,
+            adapterCreator: interaction.guild!.voiceAdapterCreator,
+        });
 
-            const voiceChannel = interaction.options.getChannel('channel');
-            
-            const voiceConnection = joinVoiceChannel({
-                channelId: interaction.channelId,
-                guildId: interaction.guildId!,
-                adapterCreator: interaction.guild!.voiceAdapterCreator,
-            })
+        const player = createAudioPlayer();
+        const resource = createAudioResource('../9_Before_The_Storm.mp3');
 
-            const player = createAudioPlayer();
-            const resource = createAudioResource('C:\\Users\\user\\Documents\\DiscordBot\\sounds\\audio.mp3');
+        player.play(resource);
 
-            player.play(resource);
+        player.on(AudioPlayerStatus.Playing, () => {
+            console.log('Playing');
+        })
 
-            player.on(AudioPlayerStatus.Playing, () => {
-                console.log('Playing');
-            })
+        player.on('error', error => {
+            console.error(`Error: ${error.message} with resource`);
+        })
 
-            player.on('error', error => {
-                console.error(`Error: ${error.message} with resource`);
-            })
-        }
+        await interaction.reply('Joining');
     }
 }
