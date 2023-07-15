@@ -1,8 +1,19 @@
-import { SlashCommandBuilder, CommandInteraction, VoiceChannel, Client } from 'discord.js';
-import {joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, VoiceConnectionStatus} from '@discordjs/voice';
+import {
+    SlashCommandBuilder,
+    CommandInteraction,
+    VoiceChannel,
+    Client,
+} from 'discord.js';
+import {
+    joinVoiceChannel,
+    createAudioPlayer,
+    createAudioResource,
+    AudioPlayerStatus,
+    VoiceConnectionStatus,
+} from '@discordjs/voice';
 
 const player = createAudioPlayer();
-const resource = createAudioResource('../9_Before_The_Storm.mp3');
+const resource = createAudioResource('./9_Before_The_Storm.mp3');
 
 export const data = new SlashCommandBuilder()
     .setName('start_session')
@@ -17,7 +28,7 @@ export async function execute(interaction: CommandInteraction, client: Client) {
             guildId: interaction.guildId!,
             adapterCreator: interaction.guild!.voiceAdapterCreator,
             selfDeaf: false,
-            selfMute: false
+            selfMute: false,
         });
 
         voiceConnection.subscribe(player);
@@ -28,15 +39,15 @@ export async function execute(interaction: CommandInteraction, client: Client) {
 
         player.on(AudioPlayerStatus.Playing, () => {
             console.log('Playing', resource);
-        })
+        });
 
-        player.on('error', error => {
+        player.on('error', (error) => {
             console.error(`Error: ${error.message} with resource`);
         });
 
-        player.on('debug', message => {
+        player.on('debug', (message) => {
             console.log('MESSAGE', message);
-        })
+        });
 
         await interaction.reply('Joining');
     }
