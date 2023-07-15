@@ -2,14 +2,17 @@
   "name": "quincy",
   "main": "index.js",
   "dependencies": {
+    "chromadb": "^1.5.4",
     "discord.js": "^14.11.0",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "langchain": "^0.0.110"
   },
   "devDependencies": {
     "eslint": "^8.45.0"
   },
   "scripts": {
     "start": "node index.js",
-    "deploy": "node deploy-commands.js"
+    "deploy": "node deploy-commands.js",
+    "test": "node memory/memory.js"
   }
 }
