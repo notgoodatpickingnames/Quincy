@@ -11,6 +11,7 @@ import {
     AudioPlayerStatus,
     VoiceConnectionStatus,
 } from '@discordjs/voice';
+import { GameController } from 'src/GameController';
 
 const voicePlayer = createAudioPlayer();
 
@@ -22,6 +23,9 @@ export const data = new SlashCommandBuilder()
 
 export async function execute(interaction: CommandInteraction, client: Client) {
     if (interaction.isChatInputCommand()) {
+
+        const game = new GameController();
+
         const voiceChannel = interaction.options.getChannel('channel');
 
         const voiceConnection = joinVoiceChannel({
