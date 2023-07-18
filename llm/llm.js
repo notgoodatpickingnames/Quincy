@@ -5,7 +5,7 @@ const { OpenAI } = require('langchain/llms/openai');
 
 
 async function getQuest() {
-	const model = new OpenAI({ openAIApiKey: open_ai_token, temperature: 0.1, modelName: 'gpt-3.5-turbo-16k' });
+	const model = new OpenAI({ openAIApiKey: open_ai_token, temperature: 0.01, modelName: 'gpt-3.5-turbo-16k' });
 	const res = await model.call(
 		// eslint-disable-next-line quotes
 		`You are a very creative dungeon master.\n
