@@ -12,8 +12,9 @@ import {
     VoiceConnectionStatus,
 } from '@discordjs/voice';
 
-const player = createAudioPlayer();
-const resource = createAudioResource('./9_Before_The_Storm.mp3');
+const voicePlayer = createAudioPlayer();
+
+const voiceResource = createAudioResource('./intro.mp3');
 
 export const data = new SlashCommandBuilder()
     .setName('start_session')
@@ -31,21 +32,28 @@ export async function execute(interaction: CommandInteraction, client: Client) {
             selfMute: false,
         });
 
-        voiceConnection.subscribe(player);
+        voiceConnection.subscribe(voicePlayer);
+
         voiceConnection.on(VoiceConnectionStatus.Ready, () => {
-            player.play(resource);
+            setTimeout(() => {
+                voicePlayer.play(voiceResource);
+            }, 1000);
         });
         // console.log('RESOURCE', resource);
 
-        player.on(AudioPlayerStatus.Playing, () => {
-            console.log('Playing', resource);
+        voicePlayer.on(AudioPlayerStatus.Playing, () => {
+            console.log('Playing Music');
         });
 
-        player.on('error', (error) => {
+        voicePlayer.on(AudioPlayerStatus.Playing, () => {
+            console.log('Playing Voice');
+        });
+
+        voicePlayer.on('error', (error) => {
             console.error(`Error: ${error.message} with resource`);
         });
 
-        player.on('debug', (message) => {
+        voicePlayer.on('debug', (message) => {
             console.log('MESSAGE', message);
         });
 
